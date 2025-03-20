@@ -1,23 +1,13 @@
 import { Router } from "express"
-import { userRouter } from "./userRouter"
+import userRouter from "./userRouter"
 import taskRouter from "./taskRouter"
-// import { taskRouter } from "./taskRouter"
+import authRouter from "./authRouter"
 
-// export const indexRouter = (): Router => {
-
-//     const router = Router()
-
-//     userRouter(router)
-//     taskRouter(router)
-
-
-    
-
-//     return router
-// }
 
 export const indexRouter = Router()
 
-indexRouter.use("/users", userRouter)
+indexRouter.use('/auth', authRouter)
+
+indexRouter.use('/users', userRouter)
 
 indexRouter.use('/tasks', taskRouter)

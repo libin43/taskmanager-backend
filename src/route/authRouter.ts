@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { Request, Response } from "express-serve-static-core";
 import { createUser } from "../controller/userController";
+import { login } from "../controller/authController";
 
 
-const userRouter = Router()
+const authRouter = Router()
 
-userRouter.post('/auth/signup', createUser)
+authRouter.post('/login', login)
 
-export default userRouter
+export default authRouter
