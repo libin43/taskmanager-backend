@@ -6,7 +6,9 @@ app.use(express.json())
 
 app.use(express.urlencoded({extended: false}))
 
-
+app.get("/", (req: Request, res: Response) => {
+    res.json("Hello World!")
+})
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     const message = err.message
