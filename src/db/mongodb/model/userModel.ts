@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema(
       default: "ADMIN",
       required: true,
     },
+    password: {
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 )
