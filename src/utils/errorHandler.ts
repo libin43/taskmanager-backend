@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { ValidationError } from "class-validator"; 
+import { ValidationError } from "class-validator";
 import { MongooseError } from "mongoose";
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 
 // Custom Error Class
 export class AppError extends Error {
@@ -34,6 +35,20 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         errors = err.errors || null
     }
 
+    if (err instanceof JsonWebTokenError) {
+        console.log(err.message, 'errr nesss')
+        if (err.message === "jwt expired") {
+            statusCode = 401;
+            errorCode = "TOKEN_EXPIRED";
+            message = "Authentication token has expired. Please login again.";
+        } else {
+            statusCode = 401;
+            errorCode = "TOKEN_INVALID";
+            message = "Invalid authentication token.";
+        }
+    }
+
+
     // Handle Validation Errors from class-validator
     if (Array.isArray(err) && err[0] instanceof ValidationError) {
         console.log(err, 'error is in validation error')
@@ -46,7 +61,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         message = "Validation failed."
     }
 
-    if(err instanceof MongooseError){
+    if (err instanceof MongooseError) {
         console.log('error is in mongoose error')
     }
 
@@ -56,7 +71,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         message = `Duplicate value found for: ${Object.keys((err as any).keyValue).join(", ")}`;
     }
 
-    
+
 
     res.status(statusCode).json({
         success: false,
