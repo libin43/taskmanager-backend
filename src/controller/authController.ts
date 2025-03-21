@@ -29,7 +29,14 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         console.log(user, 'got the uer')
 
         if (!user) {
-            throw new AppError("Invalid credentials. Please check your mobile number and password.", 401, "INVALID_CREDENTIALS");
+            throw new AppError("Account does not exist. Please check your mobile number.", 404, "NOT_FOUND")
+        }
+
+        
+        const isSamePassword = await bcryptService.compareHashedValue(loginData.password, user.password)
+
+        if(!isSamePassword){
+            throw new AppError("Invalid credentials. Please check your mobile number and password.", 401, "INVALID_CREDENTIALS")
         }
 
         const token = await jwtService.generateToken(user)
