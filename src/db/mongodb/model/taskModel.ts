@@ -1,3 +1,4 @@
+import { maxLength } from "class-validator";
 import mongoose, { Schema } from "mongoose"
 
 const commentSchema = new Schema(
@@ -26,7 +27,11 @@ const taskSchema = new Schema(
         title: {
             type: String,
             required: true,
-            maxlength: 100,
+            maxlength: 30,
+        },
+        description: {
+            type: String,
+            maxLength: 100,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,

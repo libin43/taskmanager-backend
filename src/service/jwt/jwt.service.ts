@@ -18,7 +18,7 @@ interface DecodedToken {
 export const jwtService = {
     generateToken: async(payload: {_id: string, lname: string, fname: string, role: string}) => {
         console.log(payload, 'its the payload')
-        return jwt.sign({payload}, JWT_SECRET, {expiresIn: '5m'})
+        return jwt.sign({payload}, JWT_SECRET, {expiresIn: '30m'})
     },
 
     verifyToken: async(token: string) => {
