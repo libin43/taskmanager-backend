@@ -2,8 +2,17 @@ import express, { Application, NextFunction, Request, Response } from 'express'
 import { indexRouter } from './route'
 import connectDB from './db/mongodb/connection'
 import { errorHandler } from './utils/errorHandler'
+import cors from 'cors'
 
 const app: Application = express()
+
+const corsOptions={
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
@@ -17,18 +26,6 @@ app.get("/", (req: Request, res: Response) => {
 })
 
 app.use('/api/v1', indexRouter)
-
-// app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-//     const message = err.message
-//     let statusCode = 500
-//     let errorCode =  "INTERNAL_SERVER_ERROR"
-
-//     res.status(statusCode).json({
-//         success: false,
-//         message: err.message || "Internal Server Error",
-//         errorCode
-//     });
-// })
 
 app.use(errorHandler)
 
