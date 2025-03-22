@@ -35,7 +35,6 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         const user = await userModel.create({
             fname: userData.fname,
             lname: userData.lname,
-            mobile: userData.mobile,
             email: userData.email,
             role: userData.role,
             password: hashPass,
@@ -43,7 +42,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
         const data = {
             fname: user.fname,
             lname: user.lname,
-            mobile: user.mobile,
+            email: user.email
         }
         res.status(201).json({ message: 'User created.', success: true, data })
     } catch (error: any) {

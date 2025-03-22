@@ -23,20 +23,20 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         console.log(loginData, 'its login data')
 
         const user = await userModel.findOne({
-            mobile: loginData.mobile,
+            email: loginData.email,
         }).select("fname lname role password") as { _id: string, fname: string, lname: string, role: UserRole, password: string }
 
         console.log(user, 'got the uer')
 
         if (!user) {
-            throw new AppError("Account does not exist. Please check your mobile number.", 404, "NOT_FOUND")
+            throw new AppError("Account does not exist. Please check your email.", 404, "NOT_FOUND")
         }
 
-        
+
         const isSamePassword = await bcryptService.compareHashedValue(loginData.password, user.password)
 
-        if(!isSamePassword){
-            throw new AppError("Invalid credentials. Please check your mobile number and password.", 401, "INVALID_CREDENTIALS")
+        if (!isSamePassword) {
+            throw new AppError("Invalid credentials. Please check your email and password.", 401, "INVALID_CREDENTIALS")
         }
 
         const token = await jwtService.generateToken(user)
@@ -81,7 +81,6 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
         const user = await userModel.create({
             fname: userData.fname,
             lname: userData.lname,
-            mobile: userData.mobile,
             email: userData.email,
             role: userData.role,
             password: hashPass,
@@ -89,7 +88,7 @@ export const registerUser = async (req: Request, res: Response, next: NextFuncti
         const data = {
             fname: user.fname,
             lname: user.lname,
-            mobile: user.mobile,
+            email: user.email
         }
         res.status(201).json({ message: 'User registered successfully.', success: true, data })
     } catch (error: any) {
