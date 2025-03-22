@@ -14,10 +14,10 @@ export class CreateUserInput {
     @MinLength(2, { message: "Last name must be at least 2 characters" })
     lname!: string;
 
-    @IsString()
-    @Length(10, 10, { message: "Mobile number must be 10 digits" })
-    @Matches(/^\d+$/, { message: "Mobile must contain only numbers" })
-    mobile!: string;
+    // @IsString()
+    // @Length(10, 10, { message: "Mobile number must be 10 digits" })
+    // @Matches(/^\d+$/, { message: "Mobile must contain only numbers" })
+    // mobile!: string;
 
     @IsEmail({}, { message: "Invalid email format" })
     email!: string;
